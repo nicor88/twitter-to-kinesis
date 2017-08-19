@@ -12,6 +12,9 @@ source activate twitter-to-kinesis
 cp /root/configs.yml /opt/twitter-to-kinesis/settings
 cd /opt/twitter-to-kinesis/
 
+whoami >> more.log
+cat /root/.bashrc >> more.log
+# TWITTER_KEYWORDS="Sardegna,Python"
 echo $TWITTER_KEYWORDS
 
 # start producer
