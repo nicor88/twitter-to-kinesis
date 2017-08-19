@@ -10,4 +10,4 @@ source activate twitter-to-kinesis
 cd /opt/twitter-to-kinesis/
 
 # stop producer
-python /opt/twitter-to-kinesis/sender_daemon.py --pid_file /tmp/twitter_sender.pid stop &>/dev/null &
+python /opt/twitter-to-kinesis/sender_daemon.py --pid_file /tmp/twitter_sender.pid stop &>/opt/twitter-to-kinesis/all_stop.log &
