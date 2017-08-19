@@ -26,7 +26,6 @@ class Sender(UnixDaemon):
     def __init__(self):
         super().__init__()
         self.daemon_description = 'Daemon to start morning tasks scheduler'
-        self.app_name = 'daily_tasks_scheduler'
         self.logger = configure_logger()
 
     def add_parse_arguments(self, parser):
