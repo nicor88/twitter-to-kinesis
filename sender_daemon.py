@@ -32,7 +32,7 @@ class Sender(UnixDaemon):
         super().add_parse_arguments(parser)
 
     def run(self):
-        self.logger.info(f'Started at {dt.datetime.now().isoformat()}')
+        self.logger.info('Started at {}'.format(dt.datetime.now()))
         keywords = os.environ['TWITTER_KEYWORDS'].split(',')
         self.logger.info(keywords)
         TweetsCollector.run(keywords=keywords)
