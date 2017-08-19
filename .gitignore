@@ -1,5 +1,6 @@
 .idea
 data
 *.pyc
+*.log
 
 settings/configs.yml

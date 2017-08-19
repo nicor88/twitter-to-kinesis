@@ -11,10 +11,15 @@ python stream_to_stream/sender_daemon.py stop &>/dev/null &
 """
 
 import datetime as dt
+import os
 
 from utils.logger import configure_logger
 from utils.daemon import UnixDaemon
 from send_tweets_to_kinesis import TweetsCollector
+
+if os.environ['ENV'] == 'dev':
+    os.environ["AWS_DEFAULT_REGION"] = "eu-west-1"
+    os.environ["AWS_PROFILE"] = "nicor88-aws-dev"
 
 
 class Sender(UnixDaemon):
@@ -29,8 +34,8 @@ class Sender(UnixDaemon):
 
     def run(self):
         self.logger.info(f'Started at {dt.datetime.now().isoformat()}')
-        # TODO consider to retrieve from env var as setup of the application
-        TweetsCollector.run(keywords=['Sardegna'])
+        keywords = os.environ['TWITTER_KEYWORDS'].split(',')
+        TweetsCollector.run(keywords=keywords)
 
 if __name__ == '__main__':
     Sender().action()
