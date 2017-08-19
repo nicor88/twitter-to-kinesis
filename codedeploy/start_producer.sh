@@ -8,8 +8,9 @@ export PATH=/home/ec2-user/miniconda/bin:$PATH
 conda env update -n twitter-to-kinesis -f /opt/twitter-to-kinesis/conda-dev-env.yml
 source activate twitter-to-kinesis
 
-cd /opt/twitter-to-kinesis/
+
 cp /root/configs.yml /opt/twitter-to-kinesis/settings
+cd /opt/twitter-to-kinesis/
 
 # start producer
-python /opt/twitter-to-kinesis/sender_daemon.py --pid_file /tmp/twitter_sender.pid start &>/dev/null &
+# python /opt/twitter-to-kinesis/sender_daemon.py --pid_file /tmp/twitter_sender.pid start &>/dev/null &
