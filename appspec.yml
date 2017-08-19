@@ -10,10 +10,10 @@ permissions:
 
 hooks:
   AfterInstall:
-    - location: codedeploy/start_producer.sh
+    - location: scripts/start_producer.sh
       timeout: 300
       runas: root
   ApplicationStop:
-    - location: codedeploy/stop_producer.sh
+    - location: scripts/stop_producer.sh
       timeout: 300
       runas: root
