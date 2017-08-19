@@ -11,5 +11,7 @@ source activate twitter-to-kinesis
 cp /root/configs.yml /opt/twitter-to-kinesis/settings
 cd /opt/twitter-to-kinesis/
 
+pwd >> more_log.log
+
 # start producer
 python /opt/twitter-to-kinesis/sender_daemon.py --pid_file /tmp/twitter_sender.pid start &>/opt/twitter-to-kinesis/all_start.log &
