@@ -17,10 +17,6 @@ from utils.logger import configure_logger
 from utils.daemon import UnixDaemon
 from send_tweets_to_kinesis import TweetsCollector
 
-if os.environ['ENV'] == 'dev':
-    os.environ["AWS_DEFAULT_REGION"] = "eu-west-1"
-    os.environ["AWS_PROFILE"] = "nicor88-aws-dev"
-
 
 class Sender(UnixDaemon):
     def __init__(self):
