@@ -42,7 +42,7 @@ deploy:
   bucket:            $AWS_BUCKET
   region:            $AWS_BUCKET_REGION
   local_dir:         dist
-  upload-dir:        deployments/apps/twitter-to-kinesis/
+  upload-dir:        deployments/apps/twitter-to-kinesis
   acl:               private
   skip_cleanup:      true
   on:
