@@ -1,8 +1,9 @@
 #!/bin/bash
 
+source /root/.bashrc
+
 export AWS_DEFAULT_REGION="eu-west-1"
 export PYTHONPATH=/opt/twitter-to-kinesis
-export PATH=/home/ec2-user/miniconda/bin:$PATH
 
 # create or update conda env
 conda env update -n twitter-to-kinesis -f /opt/twitter-to-kinesis/conda-dev-env.yml
