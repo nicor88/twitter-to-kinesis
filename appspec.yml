@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /opt/nicor88/twitter-to-kinesis
+    destination: /opt/twitter-to-kinesis
 permissions:
-  - object: /opt/nicor88/twitter-to-kinesis
+  - object: /opt/twitter-to-kinesis
     owner: root
     mode: 755
 
