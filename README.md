@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/nicor88/twitter-to-kinesis.svg?branch=master)](https://travis-ci.org/nicor88/twitter-to-kinesis)
+
 # twitter-to-kinesis
 Producer to send tweets to a Kinesis Stream
 
