@@ -105,9 +105,8 @@ class SendTweetsToKinesis(StreamListener):
             clean = {a: tweet_to_clean[a] for a in attrs}
             # clean['created_at'] = parse(tweet_to_clean['created_at']).replace(tzinfo=None)
             created_at = dt.datetime.fromtimestamp(int(clean['timestamp_ms'])/1000)
-            logger.debug(f'Before utc {created_at.isoformat()}')
+            # setup UTC timezone, needed if the producer is not UTC time
             created_at = created_at.astimezone(pytz.utc)
-            logger.debug(f'Before utc {created_at.isoformat()}')
             clean['created_at'] = created_at.isoformat()
             clean['user'] = {a: tweet_to_clean['user'][a] for a in user_attrs}
             clean['user']['created_at'] = get_user_created(clean['user']['created_at'],
