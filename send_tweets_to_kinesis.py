@@ -2,7 +2,7 @@
 
 Examples
 --------
->>> TweetsCollector.run(keywords=['python'])
+>>> TweetsCollector.run(stream_name='DevStreamES',  producer='TestProducer', keywords=['python'])
 
 """
 import datetime as dt
@@ -26,7 +26,9 @@ logger = logging.getLogger('sender')
 
 
 class TweetsCollector:
-    def __init__(self, *, keywords):
+    def __init__(self, *, stream_name, producer, keywords):
+        self.stream_name = stream_name
+        self.producer = producer
         self.keywords = keywords
         configs = self.configs_loader()
         twitter_auth = configs['twitter']
@@ -36,13 +38,15 @@ class TweetsCollector:
         self.auth.set_access_token(twitter_auth['access_token'], twitter_auth['access_secret'])
 
     @classmethod
-    def run(cls, *, keywords):
-        c = cls(keywords=keywords)
+    def run(cls, *, stream_name, producer, keywords):
+        c = cls(stream_name=stream_name, producer=producer, keywords=keywords)
         return c.get_tweets()
 
     def get_tweets(self):
-        twitter_stream = Stream(self.auth, SendTweetsToKinesis(keywords=self.keywords))
-
+        twitter_stream = Stream(self.auth, SendTweetsToKinesis(stream_name=self.stream_name,
+                                                               producer=self.producer,
+                                                               keywords=self.keywords))
+        logger.info(self.keywords)
         twitter_stream.filter(track=self.keywords)
         return self
 
@@ -59,18 +63,21 @@ class TweetsCollector:
 
 
 class SendTweetsToKinesis(StreamListener):
-    def __init__(self, keywords):
+    def __init__(self, stream_name, producer, keywords):
         super(StreamListener, self).__init__()
         self.kinesis = boto3.client('kinesis', config=Config(connect_timeout=1000))
+        self.stream_name = stream_name
+        self.producer = producer
         self.keywords = keywords
 
     def on_data(self, data):
         tweet = json.loads(data)
         logger.info(tweet)
         tweet_to_send = self.create_tweet_for_kinesis(name='twitter', tweet=tweet,
-                                                      keywords=self.keywords)
+                                                      keywords=self.keywords,
+                                                      producer=self.producer)
         logger.info(tweet_to_send)
-        res = self.put_tweet_to_kinesis(stream_name='DevStreamES', tweet=tweet_to_send)
+        res = self.put_tweet_to_kinesis(stream_name=self.stream_name, tweet=tweet_to_send)
         logger.info(res)
 
     def on_error(self, status):
@@ -106,7 +113,7 @@ class SendTweetsToKinesis(StreamListener):
             clean['user'] = {a: tweet_to_clean['user'][a] for a in user_attrs}
             clean['user']['created_at'] = get_user_created(clean['user']['created_at'],
                                                            clean['user']['time_zone'])
-            logger.info(f'User created time {clean["user"]["created_at"]}')
+            logger.debug(f'User created time {clean["user"]["created_at"]}')
             clean['hashtags'] = [el['text'] for el in tweet_to_clean['entities']['hashtags']]
 
             return clean
