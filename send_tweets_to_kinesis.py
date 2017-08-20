@@ -72,7 +72,6 @@ class SendTweetsToKinesis(StreamListener):
 
     def on_data(self, data):
         tweet = json.loads(data)
-        logger.info(tweet)
         tweet_to_send = self.create_tweet_for_kinesis(name='twitter', tweet=tweet,
                                                       keywords=self.keywords,
                                                       producer=self.producer)
