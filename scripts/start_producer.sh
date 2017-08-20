@@ -9,8 +9,9 @@ export PYTHONPATH=/opt/twitter-to-kinesis
 conda env update -n twitter-to-kinesis -f /opt/twitter-to-kinesis/conda-dev-env.yml
 source activate twitter-to-kinesis
 
+# copy secrets from S3, to remove in the future
+aws s3 cp s3://nicor-dev/secrets/configs.yml /opt/twitter-to-kinesis/settings
 
-cp /root/configs.yml /opt/twitter-to-kinesis/settings
 cd /opt/twitter-to-kinesis/
 
 # start producer
