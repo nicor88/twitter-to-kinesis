@@ -10,7 +10,7 @@ conda env update -n twitter-to-kinesis -f /opt/twitter-to-kinesis/conda-dev-env.
 source activate twitter-to-kinesis
 
 # copy secrets from S3, to remove in the future
-/usr/bin/aws s3 cp s3://nicor-dev/secrets/configs.yml /opt/twitter-to-kinesis/settings >> more.log
+/usr/bin/aws s3 cp s3://nicor-dev/secrets/configs.yml /opt/twitter-to-kinesis/settings
 
 cd /opt/twitter-to-kinesis/
 
