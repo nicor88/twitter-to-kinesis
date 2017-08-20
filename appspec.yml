@@ -1,0 +1,19 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /opt/twitter-to-kinesis
+permissions:
+  - object: /opt/twitter-to-kinesis
+    owner: root
+    mode: 755
+
+hooks:
+  AfterInstall:
+    - location: scripts/start_producer.sh
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: scripts/stop_producer.sh
+      timeout: 300
+      runas: root
