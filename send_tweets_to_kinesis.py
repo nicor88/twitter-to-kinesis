@@ -2,7 +2,7 @@
 
 Examples
 --------
->>> TweetsCollector.run(stream_name='DevStreamES',  producer='TestProducer', keywords=['python'])
+>>> TweetsCollector.run(stream_name='DevStream',  producer='TestProducer', keywords=['python'])
 
 """
 import datetime as dt
@@ -133,4 +133,4 @@ class SendTweetsToKinesis(StreamListener):
         return res
 
 if __name__ == '__main__':
-    TweetsCollector.run(keywords=['python'])
+    TweetsCollector.run(stream_name='DevStream', producer='TestProducer', keywords=['python'])
