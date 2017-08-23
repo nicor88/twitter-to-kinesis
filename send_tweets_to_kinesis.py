@@ -2,7 +2,7 @@
 
 Examples
 --------
->>> TweetsCollector.run(stream_name='DevStreamES',  producer='TestProducer', keywords=['python'])
+>>> TweetsCollector.run(stream_name='DevStream',  producer='TestProducer', keywords=['python'])
 
 """
 import datetime as dt
@@ -72,7 +72,6 @@ class SendTweetsToKinesis(StreamListener):
 
     def on_data(self, data):
         tweet = json.loads(data)
-        logger.info(tweet)
         tweet_to_send = self.create_tweet_for_kinesis(name='twitter', tweet=tweet,
                                                       keywords=self.keywords,
                                                       producer=self.producer)
@@ -106,9 +105,8 @@ class SendTweetsToKinesis(StreamListener):
             clean = {a: tweet_to_clean[a] for a in attrs}
             # clean['created_at'] = parse(tweet_to_clean['created_at']).replace(tzinfo=None)
             created_at = dt.datetime.fromtimestamp(int(clean['timestamp_ms'])/1000)
-            logger.debug(f'Before utc {created_at.isoformat()}')
+            # setup UTC timezone, needed if the producer is not UTC time
             created_at = created_at.astimezone(pytz.utc)
-            logger.debug(f'Before utc {created_at.isoformat()}')
             clean['created_at'] = created_at.isoformat()
             clean['user'] = {a: tweet_to_clean['user'][a] for a in user_attrs}
             clean['user']['created_at'] = get_user_created(clean['user']['created_at'],
@@ -135,4 +133,4 @@ class SendTweetsToKinesis(StreamListener):
         return res
 
 if __name__ == '__main__':
-    TweetsCollector.run(keywords=['python'])
+    TweetsCollector.run(stream_name='DevStream', producer='TestProducer', keywords=['python'])
